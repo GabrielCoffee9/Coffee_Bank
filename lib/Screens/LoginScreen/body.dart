@@ -1,48 +1,32 @@
 import 'package:coffeebank/Components/rounded_input_field.dart';
 import 'package:coffeebank/Components/signup_process_check.dart';
+import 'package:coffeebank/Utils/Themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:lottie/lottie.dart';
 
-class Body extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _Login createState() => _Login();
 }
 
-class _BodyState extends State<Body> {
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-  }
-
-  ThemeData _lightTheme = ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: Colors.brown[600])),
-      buttonTheme: ButtonThemeData(
-          buttonColor: Colors.brown[400], textTheme: ButtonTextTheme.primary),
-      primaryColor: Colors.white,
-      accentColor: Colors.brown);
-
-  ThemeData _darkTheme = ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: Colors.white)),
-      scaffoldBackgroundColor: Colors.brown[600],
-      buttonTheme: ButtonThemeData(
-          buttonColor: Colors.brown[400], textTheme: ButtonTextTheme.primary),
-      primaryColor: Colors.brown[600]);
-
+class _Login extends State<LoginScreen> {
   var _light = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
-      theme: _light ? _lightTheme : _darkTheme,
-      home: Scaffold(
-          body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+
+    var _icon = _light ? Icons.wb_sunny : Icons.nightlight_round;
+
+    return Theme(
+      data: _light ? BankThemes.lightTheme : BankThemes.darkTheme,
+      child: Scaffold(
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(32, 90, 32, 0),
           children: [
             Text(
               'Welcome to Coffee Bank!',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -53,6 +37,7 @@ class _BodyState extends State<Body> {
             SizedBox(height: size.height * 0.04),
             Text(
               'Login',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -84,16 +69,25 @@ class _BodyState extends State<Body> {
               press: () => {},
             ),
             SizedBox(height: 32),
-            Switch(
-                value: _light,
-                onChanged: (state) {
-                  setState(() {
-                    _light = state;
-                  });
-                }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(_icon),
+                Switch(
+                  value: _light,
+                  onChanged: (state) {
+                    setState(
+                      () {
+                        _light = state;
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ],
         ),
-      )),
+      ),
     );
   }
 }
